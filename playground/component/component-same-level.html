@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <app-header v-bind:propdata="num"></app-header>
+        <p>{{ num }}</p>
+        <app-content v-on:pass="dilver"></app-content>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        //같은레벨의 컴포넌트라도 데이터를 보내려면 
+        //상위 컴포넌트에 이벤트로 넘겨준뒤 props 로 내려야함
+        var appHeader = { 
+            template: '<div>header</div>',
+            props: ['propdata']
+        }
+        var appContent = {
+            template: '<div>content<button v-on:click="passNumber">pass</button></div>',
+            methods: {
+                passNumber: function() {
+                    this.$emit('pass', 10)
+                }
+            }
+        }
+        new Vue({
+            el: '#app',
+            components: {
+                'app-header': appHeader,
+                'app-content': appContent
+            },
+            data: {
+                num: 0
+            },
+            methods: {
+                dilver: function(value) {
+                    this.num = value;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
